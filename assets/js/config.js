@@ -13,8 +13,8 @@ window.LAB_CONFIG = {
 
   // From Supabase: Project Settings → API. Leave empty to run without saving (answers are
   // logged to the browser console instead), e.g. before the project exists.
-  SUPABASE_URL: '',
-  SUPABASE_ANON_KEY: '',
+  SUPABASE_URL: 'https://ttgacldfrjyzlmwthllu.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_m6eYyAfQG6QhiNfCCGVquQ_Rr5v5aPQ',
 
   MAX_TASKS_PER_SESSION: 40,   // the database also caps this (60), see schema.sql
   APP_VERSION: '0.1.0',
