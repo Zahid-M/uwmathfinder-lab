@@ -18,9 +18,9 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const NEEDLE = 'sb_' + 'secret_';
 
 /** git grep for the fixed string; returns matching "rev:path" lines (exit 1 = no match). */
-function grep(...where) {
+function grep(opts, revs = []) {
   try {
-    return execFileSync('git', ['-C', root, 'grep', '-l', '-F', NEEDLE, ...where], { encoding: 'utf8', maxBuffer: 64 << 20 })
+    return execFileSync('git', ['-C', root, 'grep', '-l', ...opts, '-F', NEEDLE, ...revs], { encoding: 'utf8', maxBuffer: 64 << 20 })
       .split('\n').filter(Boolean);
   } catch (err) {
     if (err.status === 1) return [];
@@ -31,7 +31,7 @@ function grep(...where) {
 const revs = process.argv.includes('--history')
   ? execFileSync('git', ['-C', root, 'rev-list', '--all'], { encoding: 'utf8' }).split('\n').filter(Boolean)
   : ['HEAD'];
-const hits = [...new Set([...grep('--cached'), ...grep(...revs)])];
+const hits = [...new Set([...grep(['--cached']), ...grep([], revs)])];
 const files = execFileSync('git', ['-C', root, 'ls-files'], { encoding: 'utf8' }).split('\n').filter(Boolean).length;
 
 if (hits.length) {
