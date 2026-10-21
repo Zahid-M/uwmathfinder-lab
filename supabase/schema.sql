@@ -14,7 +14,13 @@
 --   * Only scripts/export.mjs reads the data, with the service-role (secret) key, which lives
 --     in a local .env file and never in the browser.
 
-create extension if not exists pgcrypto;   -- gen_random_uuid()
+-- This script does not rely on project defaults. It was written for a project created with
+-- "Automatically expose new tables" ON (Supabase then grants ALL on new public tables to anon and
+-- authenticated) and "automatic RLS" OFF, so it explicitly enables RLS, revokes every privilege,
+-- and grants back only column-level INSERT to anon.
+--
+-- Sequences: none. Every primary key is a uuid (made in the browser, or gen_random_uuid(), which
+-- is built into Postgres 13+), so no USAGE on any sequence is needed or granted.
 
 -- ── tables ──────────────────────────────────────────────────────────────────
 
@@ -138,17 +144,27 @@ alter table public.lab_queries   enable row level security;
 alter table public.lab_judgments enable row level security;
 alter table public.lab_pairs     enable row level security;
 
-drop policy if exists "anyone can insert" on public.lab_queries;
-drop policy if exists "anyone can insert" on public.lab_judgments;
-drop policy if exists "anyone can insert" on public.lab_pairs;
+-- remove EVERY existing policy on these tables (including any made in the dashboard), so the
+-- three below are the only ones
+do $$
+declare p record;
+begin
+  for p in select policyname, tablename from pg_policies
+           where schemaname = 'public' and tablename in ('lab_queries', 'lab_judgments', 'lab_pairs') loop
+    execute format('drop policy %I on public.%I', p.policyname, p.tablename);
+  end loop;
+end $$;
+
 create policy "anyone can insert" on public.lab_queries   for insert to anon with check (true);
 create policy "anyone can insert" on public.lab_judgments for insert to anon with check (true);
 create policy "anyone can insert" on public.lab_pairs     for insert to anon with check (true);
--- No SELECT, UPDATE or DELETE policies: with RLS on, those are denied for anon.
+-- No SELECT, UPDATE or DELETE policies, and none at all for authenticated: with RLS on, anything
+-- without a policy is denied.
 
 -- ── table privileges: also INSERT only, and only on the columns the browser sends ──
+-- Undo the "automatically expose new tables" grants (ALL to anon and authenticated), and PUBLIC.
 
-revoke all on public.lab_queries, public.lab_judgments, public.lab_pairs from anon, authenticated;
+revoke all on public.lab_queries, public.lab_judgments, public.lab_pairs from anon, authenticated, public;
 
 grant insert (id, session_id, task, source, query, course, scenario_id, scenario_course,
               target_id, none_relevant, index_commit, app_version, is_test)
@@ -160,9 +176,25 @@ grant insert (session_id, query_ref, query_source, course, left_id, right_id, le
               right_system, choice, index_commit, app_version, is_test)
   on public.lab_pairs to anon;
 
+-- scripts/export.mjs reads with the secret key (role service_role, which bypasses RLS). Grant its
+-- read access explicitly instead of relying on "automatically expose new tables".
+grant select on public.lab_queries, public.lab_judgments, public.lab_pairs to service_role;
+
 -- ── check it worked ─────────────────────────────────────────────────────────
--- Expect three rows, each with rowsecurity = true and one policy, cmd = INSERT:
-select c.relname as table_name, c.relrowsecurity as rowsecurity,
-       (select string_agg(p.cmd, ',') from pg_policies p where p.tablename = c.relname) as policies
+-- Expect three rows, each with:
+--   rls_enabled = true
+--   policies = 'anyone can insert: INSERT to {anon}'
+--   anon_can_insert = true
+--   anon_other_privileges = false, authenticated_any_privilege = false
+select c.relname as table_name,
+       c.relrowsecurity as rls_enabled,
+       (select string_agg(format('%s: %s to %s', p.policyname, p.cmd, p.roles), '; ')
+          from pg_policies p where p.schemaname = 'public' and p.tablename = c.relname) as policies,
+       has_any_column_privilege('anon', c.oid, 'INSERT') as anon_can_insert,
+       has_table_privilege('anon', c.oid, 'SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER')
+         or has_any_column_privilege('anon', c.oid, 'SELECT, UPDATE, REFERENCES') as anon_other_privileges,
+       has_table_privilege('authenticated', c.oid, 'SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER')
+         or has_any_column_privilege('authenticated', c.oid, 'SELECT, INSERT, UPDATE, REFERENCES') as authenticated_any_privilege
 from pg_class c join pg_namespace n on n.oid = c.relnamespace
-where n.nspname = 'public' and c.relname in ('lab_queries', 'lab_judgments', 'lab_pairs');
+where n.nspname = 'public' and c.relname in ('lab_queries', 'lab_judgments', 'lab_pairs')
+order by 1;
