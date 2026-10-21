@@ -1,0 +1,24 @@
+# On every push and pull request: no secret key is committed, and the unit tests pass.
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history, so --history can scan every commit
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: No Supabase secret key in any commit
+        run: node scripts/check-secrets.mjs --history
+      - name: Unit tests
+        run: npm test
