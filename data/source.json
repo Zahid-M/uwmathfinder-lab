@@ -1,0 +1,12 @@
+{
+ "repo": "Sigma-Works/UWMathFinder",
+ "commit": "9fcce756d80d7219df5595ab2cb04bb8fae9a764",
+ "commit_date": "2026-10-21T03:51:19-07:00",
+ "model": "Xenova/all-MiniLM-L6-v2",
+ "dtype": "q8",
+ "transformers_url": "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.1.2",
+ "dims": 384,
+ "questions": 2099,
+ "transcribed": 200,
+ "synced_at": "2026-10-21T19:20:56.348Z"
+}
