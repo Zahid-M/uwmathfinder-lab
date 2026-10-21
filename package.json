@@ -1,0 +1,18 @@
+{
+  "name": "uwmathfinder-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Collects realistic search queries and relevance judgments from UW students to evaluate UWMathFinder's Ask tab.",
+  "license": "MIT",
+  "repository": "github:Zahid-M/uwmathfinder-lab",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "sync": "node scripts/sync-index.mjs",
+    "export": "node scripts/export.mjs",
+    "test": "node --test tests/"
+  }
+}
