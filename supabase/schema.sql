@@ -28,8 +28,9 @@ create table if not exists public.lab_queries (
                     and query !~* '[^[:space:]@]+[[:space:]]*@[[:space:]]*[^[:space:]@]+\.[a-z]{2,}'   -- email
                     and query !~ '(\+?[0-9][[:space:].()-]*){10,}'                                    -- phone
                   ),
-  course          text check (course in ('Math 120','Math 124','Math 125','Math 126','Math 207','Math 208','Math 224')),
+  course          text check (course in ('Math 120','Math 124','Math 125','Math 126','Math 207','Math 208','Math 224')),  -- the course they picked (null = skipped)
   scenario_id     text check (char_length(scenario_id) <= 40),
+  -- search: the course results were limited to (null = all courses); describe: the shown question's course
   scenario_course text check (scenario_course in ('Math 120','Math 124','Math 125','Math 126','Math 207','Math 208','Math 224')),
   target_id       text check (target_id ~ '^q[0-9]{4,5}$'),   -- "describe": the question that was shown
   none_relevant   boolean,                          -- "search": the contributor chose "none of these"
