@@ -1,0 +1,220 @@
+{
+ "_note": "MADE-UP rows for testing the export/import pipeline. Not real submissions.",
+ "queries": [
+  {
+   "id": "aaaaaaaa-0000-4000-8000-000000000001",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "task": "search",
+   "source": "human_blind",
+   "course": "Math 125",
+   "scenario_id": "midterm",
+   "scenario_course": "Math 125",
+   "target_id": null,
+   "none_relevant": false,
+   "index_commit": "9fcce756d80d7219df5595ab2cb04bb8fae9a764",
+   "app_version": "0.1.0",
+   "is_test": false,
+   "created_at": "2026-10-21T20:00:01Z",
+   "query": "integration by parts with ln x"
+  },
+  {
+   "id": "aaaaaaaa-0000-4000-8000-000000000002",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "task": "search",
+   "source": "human_blind",
+   "course": "Math 125",
+   "scenario_id": "midterm",
+   "scenario_course": "Math 125",
+   "target_id": null,
+   "none_relevant": false,
+   "index_commit": "9fcce756d80d7219df5595ab2cb04bb8fae9a764",
+   "app_version": "0.1.0",
+   "is_test": false,
+   "created_at": "2026-10-21T20:00:02Z",
+   "query": "partial fractions"
+  },
+  {
+   "id": "aaaaaaaa-0000-4000-8000-000000000003",
+   "session_id": "22222222-2222-4222-8222-222222222222",
+   "task": "search",
+   "source": "human_blind",
+   "course": null,
+   "scenario_id": "midterm",
+   "scenario_course": null,
+   "target_id": null,
+   "none_relevant": false,
+   "index_commit": "9fcce756d80d7219df5595ab2cb04bb8fae9a764",
+   "app_version": "0.1.0",
+   "is_test": false,
+   "created_at": "2026-10-21T20:00:03Z",
+   "query": "taylor series of e^x"
+  },
+  {
+   "id": "aaaaaaaa-0000-4000-8000-000000000004",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "task": "describe",
+   "source": "human_image_shown",
+   "course": "Math 125",
+   "scenario_id": "describe",
+   "scenario_course": "Math 125",
+   "target_id": "q1143",
+   "none_relevant": null,
+   "index_commit": "9fcce756d80d7219df5595ab2cb04bb8fae9a764",
+   "app_version": "0.1.0",
+   "is_test": false,
+   "created_at": "2026-10-21T20:00:04Z",
+   "query": "arc length of a curve"
+  }
+ ],
+ "judgments": [
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000001",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q0056",
+   "rating": "wanted",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000001",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q1804",
+   "rating": "related",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000001",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q1242",
+   "rating": "not_relevant",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000001",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q0055",
+   "rating": "related",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000001",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q0590",
+   "rating": "not_relevant",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": true,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000002",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q1292",
+   "rating": "wanted",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000002",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q2047",
+   "rating": "related",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000002",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q0382",
+   "rating": "wanted",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000002",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q0163",
+   "rating": "not_relevant",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000002",
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "question_id": "q0857",
+   "rating": "not_relevant",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": true
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000003",
+   "session_id": "22222222-2222-4222-8222-222222222222",
+   "question_id": "q0001",
+   "rating": "not_relevant",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  },
+  {
+   "query_id": "aaaaaaaa-0000-4000-8000-000000000003",
+   "session_id": "22222222-2222-4222-8222-222222222222",
+   "question_id": "q0002",
+   "rating": "not_relevant",
+   "position": 1,
+   "assistant_rank": null,
+   "words_rank": null,
+   "is_random": false,
+   "is_check": false
+  }
+ ],
+ "pairs": [
+  {
+   "session_id": "11111111-1111-4111-8111-111111111111",
+   "query_ref": "r062",
+   "query_source": "llm",
+   "course": "Math 125",
+   "left_id": "q1089",
+   "right_id": "q0037",
+   "left_system": "assistant",
+   "right_system": "keyword_words",
+   "choice": "left",
+   "index_commit": "9fcce756d80d7219df5595ab2cb04bb8fae9a764",
+   "app_version": "0.1.0",
+   "is_test": false,
+   "created_at": "2026-10-21T20:01:00Z"
+  }
+ ]
+}
