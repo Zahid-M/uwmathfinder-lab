@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>UWMathFinder Lab</title>
+  <meta name="description" content="Help make UWMathFinder's search better: type how you'd search for a past UW math exam question and rate the results. Takes 2 minutes, no sign-up." />
+  <meta property="og:title" content="UWMathFinder Lab: How would you search?" />
+  <meta property="og:description" content="2 minutes, no sign-up. Help UW students find the right past exam questions." />
+  <meta name="theme-color" content="#4b2e83" />
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/analytics.js"></script>
+  <link rel="stylesheet" href="assets/css/lab.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./">UWMathFinder <span>Lab</span></a>
+    <span class="test-badge" id="testBadge" hidden>test mode</span>
+    <button class="link-btn" id="finishBtn" type="button" hidden>I'm done</button>
+  </header>
+
+  <main id="main">
+    <!-- landing -->
+    <section data-view="landing">
+      <h1>How would you search?</h1>
+      <p class="lead">Help make the search on <a href="https://uwmathfinder.com" target="_blank" rel="noopener">UWMathFinder</a>
+        better for every UW math student. Type what you'd search for, then tell us which past exam questions fit. About 2 minutes, no sign-up.</p>
+      <p class="counter" id="landingCounter" hidden></p>
+      <button class="btn primary big" id="startBtn" type="button">Start</button>
+      <p class="consent">
+        By taking part you agree that we save what you type, your ratings and the course you pick, with a random ID
+        stored in your browser. No names, emails or accounts. We use this to measure how well the search works, and the
+        searches may be published as part of an open dataset. Don't type anything personal.
+        <a href="privacy.html">Privacy details</a>.
+      </p>
+    </section>
+
+    <!-- course picker -->
+    <section data-view="course" hidden>
+      <h2>Which course are you studying?</h2>
+      <p class="muted">Optional. It picks the scenario and which past questions you'll see.</p>
+      <div class="course-grid" id="courseGrid"></div>
+      <button class="btn ghost" id="skipCourse" type="button">Skip / not sure</button>
+    </section>
+
+    <!-- task 1: search like you would -->
+    <section data-view="search" hidden>
+      <div class="saved" id="savedNote" hidden></div>
+      <div class="step" id="searchAsk">
+        <p class="eyebrow">Search like you would</p>
+        <p class="scenario" id="scenario"></p>
+        <form id="searchForm" autocomplete="off">
+          <label class="sr-only" for="searchInput">Your search</label>
+          <textarea id="searchInput" rows="2" maxlength="200" placeholder="Type it the way you'd type it…" data-clarity-mask="true"></textarea>
+          <p class="error" id="searchError" role="alert"></p>
+          <button class="btn primary" type="submit" id="searchGo">Show results</button>
+        </form>
+        <p class="status" id="modelStatus" role="status" aria-live="polite"></p>
+      </div>
+      <div class="step" id="searchRate" hidden>
+        <p class="eyebrow">You searched for</p>
+        <p class="echo" id="searchEcho" data-clarity-mask="true"></p>
+        <p class="muted">Rate each result. Tap an image to zoom.</p>
+        <ol class="results" id="results"></ol>
+        <button class="btn ghost wide" id="noneBtn" type="button" aria-pressed="false">None of these is what I wanted</button>
+        <p class="error" id="rateError" role="alert"></p>
+        <button class="btn primary wide" id="rateGo" type="button">Submit</button>
+      </div>
+    </section>
+
+    <!-- task 2: describe this question -->
+    <section data-view="describe" hidden>
+      <div class="saved" id="savedNote2" hidden></div>
+      <p class="eyebrow">Describe this question</p>
+      <p class="scenario">If you wanted to find more questions like this one, what would you type? Use your own words; no need to copy the question.</p>
+      <a class="qimg" id="describeLink" target="_blank" rel="noopener"><img id="describeImg" alt="A past exam question" /></a>
+      <form id="describeForm" autocomplete="off">
+        <label class="sr-only" for="describeInput">Your search</label>
+        <textarea id="describeInput" rows="2" maxlength="200" placeholder="What would you search for?" data-clarity-mask="true"></textarea>
+        <p class="error" id="describeError" role="alert"></p>
+        <button class="btn primary" type="submit">Submit</button>
+        <button class="btn ghost" type="button" id="describeSkip">Skip this one</button>
+      </form>
+    </section>
+
+    <!-- task 3: which is closer? -->
+    <section data-view="pair" hidden>
+      <div class="saved" id="savedNote3" hidden></div>
+      <p class="eyebrow">Which is closer?</p>
+      <p class="muted">Someone searched for:</p>
+      <p class="echo" id="pairQuery" data-clarity-mask="true"></p>
+      <p class="status" id="pairStatus" role="status" aria-live="polite"></p>
+      <div class="pair" id="pairBox" hidden>
+        <figure><figcaption>A</figcaption><a class="qimg" id="pairLinkA" target="_blank" rel="noopener"><img id="pairImgA" alt="Question A" /></a></figure>
+        <figure><figcaption>B</figcaption><a class="qimg" id="pairLinkB" target="_blank" rel="noopener"><img id="pairImgB" alt="Question B" /></a></figure>
+      </div>
+      <div class="choices" id="pairChoices" hidden>
+        <button class="btn primary" data-choice="left" type="button">A</button>
+        <button class="btn primary" data-choice="right" type="button">B</button>
+        <button class="btn ghost" data-choice="both" type="button">Both equally</button>
+        <button class="btn ghost" data-choice="neither" type="button">Neither</button>
+      </div>
+      <p class="error" id="pairError" role="alert"></p>
+      <button class="link-btn" id="pairStop" type="button">Back to searching</button>
+    </section>
+
+    <!-- thank you -->
+    <section data-view="thanks" hidden>
+      <h2>Thank you! 💜</h2>
+      <p class="counter big" id="thanksCounter"></p>
+      <p id="limitNote" hidden>That's the most we ask from one person. You've been a huge help.</p>
+      <div class="stack">
+        <button class="btn primary" id="morePair" type="button">Got 30 seconds? Try "Which is closer?"</button>
+        <button class="btn ghost" id="moreSearch" type="button">Do a few more searches</button>
+        <button class="btn ghost" id="shareBtn" type="button">Share with a classmate</button>
+      </div>
+      <p class="muted">Study with real past exams at <a href="https://uwmathfinder.com" target="_blank" rel="noopener">uwmathfinder.com</a>.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="privacy.html">Privacy</a> ·
+    <a href="https://uwmathfinder.com" target="_blank" rel="noopener">uwmathfinder.com</a> ·
+    <a href="https://github.com/Zahid-M/uwmathfinder-lab" target="_blank" rel="noopener">Source</a>
+  </footer>
+
+  <script type="module" src="assets/js/lab.mjs"></script>
+</body>
+</html>

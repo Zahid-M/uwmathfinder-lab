@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Privacy · UWMathFinder Lab</title>
+  <meta name="theme-color" content="#4b2e83" />
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/analytics.js"></script>
+  <link rel="stylesheet" href="assets/css/lab.css" />
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./">UWMathFinder <span>Lab</span></a>
+  </header>
+  <main class="prose">
+    <h1>Privacy</h1>
+    <p>UWMathFinder Lab is a student project that collects example searches to measure how well the search on
+      <a href="https://uwmathfinder.com" target="_blank" rel="noopener">uwmathfinder.com</a> works. It does not train an AI model.
+      You don't need an account, and we never ask for your name or email.</p>
+
+    <h2>What we save</h2>
+    <ul>
+      <li>What you type in the search and description boxes.</li>
+      <li>Your ratings ("this is what I wanted", "related", "not relevant", "none of these", and "which is closer" choices).</li>
+      <li>The course you pick, if you pick one.</li>
+      <li>A random ID made by your browser and stored in its local storage, so we can group the answers from one visit
+        and spot low-effort sessions. It isn't linked to who you are. Clearing your browser data removes it.</li>
+      <li>The time of each answer and which version of the search index you saw.</li>
+    </ul>
+    <p>We don't store your IP address, device or location with your answers (Supabase, like any web host, keeps
+      short-lived server logs of requests). Please don't type anything personal:
+      we reject text that looks like an email address or phone number.</p>
+
+    <h2>How it's used</h2>
+    <ul>
+      <li>To build a test set that measures how well UWMathFinder finds the right past exam questions.</li>
+      <li>The searches and ratings may be published as part of an <strong>open dataset</strong>, without the random ID.</li>
+      <li>Answers that fail simple attention checks are flagged and left out of the results.</li>
+    </ul>
+
+    <h2>Where it's stored</h2>
+    <p>Answers go to a <a href="https://supabase.com" target="_blank" rel="noopener">Supabase</a> database. The website can
+      only add answers, never read them back; only the project maintainer can export them.</p>
+
+    <h2>Analytics</h2>
+    <p>Like uwmathfinder.com, this site uses:</p>
+    <ul>
+      <li><strong>Google Analytics 4</strong> to count visits and which steps people finish (for example "started a search task").
+        It never receives what you type or your random ID.
+        See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a>.</li>
+      <li><strong>Microsoft Clarity</strong> for anonymous heatmaps and session replays that show where the page is confusing.
+        Everything you type, and every place a search is displayed, is masked in those recordings.
+        See <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft's privacy statement</a>.</li>
+    </ul>
+    <p>Both set cookies. You can block them with your browser's tracking protection or an ad blocker; the lab still works.</p>
+
+    <h2>Questions or removal</h2>
+    <p>Because we don't know who you are, we can't look up your answers by name. If you'd like something removed, open an issue at
+      <a href="https://github.com/Zahid-M/uwmathfinder-lab/issues" target="_blank" rel="noopener">github.com/Zahid-M/uwmathfinder-lab</a>
+      quoting the text you typed, and we'll delete it.</p>
+
+    <p><a href="./">← Back to the lab</a></p>
+  </main>
+  <footer class="foot">
+    <a href="./">UWMathFinder Lab</a> ·
+    <a href="https://uwmathfinder.com" target="_blank" rel="noopener">uwmathfinder.com</a>
+  </footer>
+</body>
+</html>

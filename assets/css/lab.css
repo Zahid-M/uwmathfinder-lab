@@ -1,0 +1,130 @@
+/* UWMathFinder Lab: mobile-first (most visitors arrive from an Instagram link on a phone). */
+:root {
+  --purple: #4b2e83;
+  --gold: #b7a57a;
+  --bg: #faf9fc;
+  --surface: #ffffff;
+  --text: #1d1a24;
+  --muted: #625c6e;
+  --border: #ddd8e6;
+  --accent: var(--purple);
+  --accent-text: #ffffff;
+  --ok: #1d7a46;
+  --error: #b3261e;
+  --wanted: #1d7a46;
+  --related: #8a6d1d;
+  --notrel: #6b6475;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141118;
+    --surface: #1e1a24;
+    --text: #ece9f1;
+    --muted: #a59fb0;
+    --border: #3a3444;
+    --accent: #9d83d6;
+    --accent-text: #141118;
+    --ok: #6fcf97;
+    --error: #ff8a80;
+    --wanted: #6fcf97;
+    --related: #e2c56b;
+    --notrel: #a59fb0;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a { color: var(--accent); }
+h1 { font-size: 2rem; line-height: 1.15; margin: .5rem 0 .75rem; }
+h2 { font-size: 1.4rem; margin: .5rem 0; }
+
+.top {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .75rem 16px; border-bottom: 1px solid var(--border); background: var(--surface);
+  position: sticky; top: 0; z-index: 2;
+}
+.brand { font-weight: 700; text-decoration: none; color: var(--text); }
+.brand span { color: var(--gold); }
+.test-badge { font-size: .75rem; padding: .1rem .45rem; border-radius: 99px; background: var(--related); color: var(--bg); }
+#finishBtn { margin-left: auto; }
+
+main { flex: 1; width: 100%; max-width: 40rem; margin: 0 auto; padding: 16px 16px 32px; }
+.foot { text-align: center; font-size: .85rem; color: var(--muted); padding: 1rem 16px 1.5rem; }
+.foot a { color: var(--muted); }
+
+.lead { font-size: 1.1rem; }
+.muted, .status { color: var(--muted); font-size: .92rem; }
+.consent { font-size: .82rem; color: var(--muted); margin-top: 1.5rem; }
+.eyebrow { text-transform: uppercase; letter-spacing: .06em; font-size: .75rem; font-weight: 700; color: var(--gold); margin: .25rem 0; }
+.scenario { font-size: 1.15rem; font-weight: 600; margin: .25rem 0 1rem; }
+.echo { font-size: 1.1rem; font-weight: 600; margin: 0 0 .5rem; overflow-wrap: anywhere; }
+.counter { font-weight: 600; color: var(--ok); }
+.counter.big { font-size: 1.2rem; }
+.error { color: var(--error); font-size: .92rem; min-height: 1.2em; margin: .35rem 0; }
+.saved { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--ok); border-radius: 8px; padding: .5rem .75rem; font-size: .9rem; margin-bottom: 1rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* buttons: 44px+ tap targets */
+.btn {
+  font: inherit; font-weight: 600; min-height: 44px; padding: .6rem 1.1rem;
+  border-radius: 10px; border: 1.5px solid var(--accent); cursor: pointer;
+  background: transparent; color: var(--accent);
+}
+.btn.primary { background: var(--accent); color: var(--accent-text); }
+.btn.big { font-size: 1.15rem; padding: .8rem 2.5rem; }
+.btn.wide { width: 100%; margin-top: .75rem; }
+.btn.ghost { border-color: var(--border); color: var(--text); }
+.btn[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--accent-text); }
+.btn:disabled { opacity: .55; cursor: default; }
+.link-btn { font: inherit; font-size: .9rem; background: none; border: 0; color: var(--accent); text-decoration: underline; cursor: pointer; padding: .5rem 0; min-height: 44px; }
+.stack { display: grid; gap: .6rem; margin: 1.25rem 0; }
+
+.course-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; margin: 1rem 0; }
+@media (min-width: 30rem) { .course-grid { grid-template-columns: repeat(4, 1fr); } }
+
+textarea {
+  width: 100%; font: inherit; font-size: 1.05rem; /* 16px+ stops iOS zooming in on focus */
+  padding: .7rem .8rem; border-radius: 10px; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--text); resize: vertical;
+}
+textarea:focus { outline: none; border-color: var(--accent); }
+form .btn { margin-top: .25rem; }
+
+/* question images are white exam crops: keep them on white in dark mode too */
+.qimg { display: block; background: #fff; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.qimg img { display: block; width: 100%; height: auto; }
+
+.results { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 1.25rem; }
+.result { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .6rem; }
+.result.done { border-color: var(--accent); }
+.rate { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: .4rem; margin-top: .6rem; }
+.chip {
+  font: inherit; font-size: .85rem; font-weight: 600; min-height: 44px; padding: .35rem .3rem;
+  border-radius: 8px; border: 1.5px solid var(--border); background: transparent; color: var(--text); cursor: pointer;
+}
+.chip[data-rating="wanted"][aria-pressed="true"] { background: var(--wanted); border-color: var(--wanted); color: var(--bg); }
+.chip[data-rating="related"][aria-pressed="true"] { background: var(--related); border-color: var(--related); color: var(--bg); }
+.chip[data-rating="not_relevant"][aria-pressed="true"] { background: var(--notrel); border-color: var(--notrel); color: var(--bg); }
+
+.pair { display: grid; gap: .8rem; margin: .75rem 0; }
+.pair figure { margin: 0; }
+.pair figcaption { font-weight: 700; margin-bottom: .25rem; }
+@media (min-width: 48rem) {
+  main:has(.pair:not([hidden])) { max-width: 64rem; }
+  .pair { grid-template-columns: 1fr 1fr; }
+}
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+
+.prose h2 { margin-top: 1.5rem; }
+.prose li { margin: .3rem 0; }
