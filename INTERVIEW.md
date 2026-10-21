@@ -39,7 +39,7 @@ index manifest, and writes them to `data/source.json`; `loadModel()` checks the 
 No. The anon key only identifies the `anon` role. `supabase/schema.sql` enables RLS with one INSERT
 policy per table, revokes privileges and grants INSERT on specific columns only, adds CHECK constraints,
 and caps rows per session with security-definer triggers. Reads only happen in `scripts/export.mjs` with
-the service key from `.env`. `scripts/check-rls.mjs` proves select/update/delete are refused.
+the secret key (`SUPABASE_SECRET_KEY`) from `.env`. `scripts/check-rls.mjs` proves select/update/delete are refused.
 
 **8. Can someone spam you anyway?**
 Yes, by inserting junk or rotating session ids. Mitigations: CHECK constraints, per-session caps, the

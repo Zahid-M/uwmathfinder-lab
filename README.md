@@ -55,7 +55,7 @@ submissions as test data, which the export drops.
 | `assets/assistant/`, `questions*/` | the index and question images, copied from UWMathFinder |
 | `supabase/schema.sql` | tables, insert-only RLS, constraints, per-session limits |
 | `scripts/sync-index.mjs` | copy the index and data from `../UWMathFinder` |
-| `scripts/export.mjs` | download submissions and write eval files (service key from `.env`) |
+| `scripts/export.mjs` | download submissions and write eval files (secret key from `.env`) |
 | `scripts/check-rls.mjs` | prove the public key can only insert |
 | `splits/splits.json` | the frozen TEST/DEV assignment (created by the first export) |
 
@@ -73,7 +73,7 @@ it was made against.
 
 ```
 students ──INSERT──▶ Supabase (lab_queries, lab_judgments, lab_pairs)
-                          │ service key, on your computer only
+                          │ secret key, on your computer only
                           ▼
         node scripts/export.mjs  ──▶ out/eval-export.json   (+ splits/splits.json, committed)
                           │

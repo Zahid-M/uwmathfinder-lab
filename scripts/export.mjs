@@ -8,7 +8,7 @@
  *
  * Needs a local, untracked .env (see .env.example) with:
  *   SUPABASE_URL=https://<project>.supabase.co
- *   SUPABASE_SERVICE_KEY=<service_role / secret key>   ← can read everything: never commit it,
+ *   SUPABASE_SECRET_KEY=<secret key>                   ← bypasses RLS, can read everything: never commit it,
  *                                                         never put it in the browser
  *   SPLIT_SEED=uwmf-lab-v1                             (optional; fixed once the first export runs)
  *
@@ -41,7 +41,7 @@ function loadEnv() {
   return env;
 }
 
-/** Every row of a table, 1000 at a time, oldest first. The service key bypasses RLS. */
+/** Every row of a table, 1000 at a time, oldest first. The secret key (role service_role) bypasses RLS. */
 async function fetchAll(url, key, table) {
   const headers = { apikey: key };
   if (key.startsWith('eyJ')) headers.Authorization = `Bearer ${key}`;   // legacy JWT keys
@@ -62,12 +62,12 @@ const fromIdx = args.indexOf('--from');
 if (fromIdx >= 0) {
   raw = JSON.parse(fs.readFileSync(path.resolve(args[fromIdx + 1]), 'utf8'));
 } else {
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) die('set SUPABASE_URL and SUPABASE_SERVICE_KEY in .env (see .env.example)');
+  if (!env.SUPABASE_URL || !env.SUPABASE_SECRET_KEY || env.SUPABASE_SECRET_KEY === 'paste-your-secret-key-here') die('set SUPABASE_URL and SUPABASE_SECRET_KEY in .env (copy .env.example)');
   raw = {
     downloaded_at: new Date().toISOString(),
-    queries: await fetchAll(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY, 'lab_queries'),
-    judgments: await fetchAll(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY, 'lab_judgments'),
-    pairs: await fetchAll(env.SUPABASE_URL, env.SUPABASE_SERVICE_KEY, 'lab_pairs'),
+    queries: await fetchAll(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY, 'lab_queries'),
+    judgments: await fetchAll(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY, 'lab_judgments'),
+    pairs: await fetchAll(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY, 'lab_pairs'),
   };
   fs.mkdirSync(at('out'), { recursive: true });
   fs.writeFileSync(at('out/raw.json'), JSON.stringify(raw, null, 1) + '\n');

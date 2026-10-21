@@ -18,7 +18,8 @@ Everything you need to do by hand, in order. Tick as you go.
 
       Paste those two into the chat (or into `SUPABASE_URL` / `SUPABASE_ANON_KEY` in
       [assets/js/config.js](assets/js/config.js) yourself).
-- [ ] Copy the **service_role / secret** key into a new file `.env` in this folder (copy `.env.example`).
+- [ ] Copy `.env.example` to `.env` and replace `paste-your-secret-key-here` with the **secret** key
+      (Project Settings → API Keys → Secret keys). Only `scripts/export.mjs` reads it.
       **Don't paste this one anywhere else**: not in chat, not in config.js, not in a commit.
       `git status` should never show `.env`.
 - [ ] Run `node scripts/check-rls.mjs`. Every line should say PASS.
@@ -86,7 +87,7 @@ testing short.
 ## 6. Getting the data back (once responses come in)
 
 ```sh
-# in this folder (needs .env with the service key)
+# in this folder (needs .env with SUPABASE_SECRET_KEY)
 node scripts/export.mjs
 git add splits/splits.json && git commit -m "Freeze splits for new lab queries" && git push
 

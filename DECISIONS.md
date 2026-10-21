@@ -73,11 +73,22 @@ source, and that's expected. Security comes from what Postgres lets the `anon` r
 4. **Triggers** cap rows per session id (60 queries, 60 pairs; 5 judgments per query, and only for a
    search query from the same session). They run as `security definer` in an unexposed schema.
 
-Reading happens only in `scripts/export.mjs` with the **service-role key**, which bypasses RLS and
+Reading happens only in `scripts/export.mjs` with the **secret key** (`SUPABASE_SECRET_KEY`, role `service_role`), which bypasses RLS and
 lives in a gitignored `.env`. `scripts/check-rls.mjs` proves the policies work: it inserts a test row,
 then confirms select, update, delete and setting `created_at` are all refused.
 **Alternatives:** a serverless function holding a secret (paid tiers or extra hosting); a Google
 Form (no pooling or custom UI); public read access (anyone could scrape or game it).
+**No reliance on project defaults:** this project was created with "Automatically expose new tables"
+ON (Supabase grants ALL on new `public` tables to `anon` and `authenticated`) and automatic RLS OFF.
+So the script enables RLS itself, drops *every* existing policy on the three tables before creating
+the INSERT ones, revokes ALL from `anon`, `authenticated` and `PUBLIC`, and grants back only
+column-level INSERT to `anon` (and SELECT to `service_role` for the export). There are no sequences
+(all ids are uuids), so no sequence USAGE is granted. Inserts send `Prefer: return=minimal`
+(`insert()` in `assets/js/submit.mjs`); asking for the row back would need SELECT, which `anon`
+doesn't have, and the insert would fail.
+**Secret key hygiene:** only `scripts/export.mjs` reads `SUPABASE_SECRET_KEY`, from the gitignored
+`.env`. `scripts/check-secrets.mjs` (run in CI on every push, over the whole history) fails if any
+committed file contains the secret-key prefix.
 **Tradeoffs:** someone can still insert junk or rotate session ids to get past the per-session cap.
 That's handled downstream: attention checks, `is_test`, dedupe, and the export's flagging. Without
 reads, the page can't show a global counter, so the counter is per-browser (`localStorage`).

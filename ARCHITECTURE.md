@@ -17,7 +17,7 @@ time they come up.
                                                            ▼
                                  Supabase Postgres: lab_queries, lab_judgments, lab_pairs
                                  (Row Level Security: anon may INSERT only)
-                                                           │ service key (.env, your laptop)
+                                                           │ secret key (.env, your laptop) 
                                                            ▼
                      scripts/export.mjs ──▶ out/eval-export.json + splits/splits.json
                                                            │
